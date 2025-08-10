@@ -25,7 +25,7 @@ func NewMCPServer() *MCPServer {
 func (s *MCPServer) Start(ctx context.Context) error {
 	// Create server with proper implementation
 	server := mcp.NewServer(&mcp.Implementation{
-		Name:    "github-issue-developer",
+		Name:    "git-issue-developer-mcp-server",
 		Version: "1.0.0",
 	}, nil)
 
@@ -35,7 +35,7 @@ func (s *MCPServer) Start(ctx context.Context) error {
 	s.server = server
 
 	log.Println("Starting GitHub Issue Developer MCP Server...")
-	log.Println("Server Name: github-issue-developer")
+	log.Println("Server Name: git-issue-developer-mcp-server")
 	log.Println("Version: 1.0.0")
 
 	// Check if HTTP address is provided via environment variable

@@ -111,16 +111,38 @@ This server implements the Model Context Protocol specification and can be integ
 
 ### Example MCP Client Configuration
 
+#### For Stdio Transport (Default)
 ```json
 {
   "servers": {
-    "github-issue-developer": {
+    "git-issue-developer-mcp-server": {
       "command": "./github-issue-developer-mcp-server",
       "args": []
     }
   }
 }
 ```
+
+#### For Cline (SSE Transport)
+```json
+{
+  "mcpServers": {
+    "git-issue-developer-mcp-server": {
+      "disabled": false,
+      "timeout": 60,
+      "type": "sse",
+      "url": "http://127.0.0.1:8085/",
+      "autoApprove": [
+        "list_tools",
+        "list_prompts"
+      ]
+    }
+  }
+}
+```
+
+**Note**: For Cline, this configuration is automatically managed in:
+`~/.config/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
 
 ## Testing with LLM Agents
 

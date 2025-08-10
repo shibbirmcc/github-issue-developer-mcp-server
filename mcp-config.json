@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "github-issue-developer": {
+      "command": "/home/shibbir/src/github-issue-developer-mcp-server/github-issue-developer-mcp-server",
+      "args": []
+    }
+  }
+}
