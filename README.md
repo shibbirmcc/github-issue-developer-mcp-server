@@ -122,6 +122,158 @@ This server implements the Model Context Protocol specification and can be integ
 }
 ```
 
+## Testing with LLM Agents
+
+Here are practical examples of how to test the MCP server with any MCP-compatible LLM agent:
+
+### 1. Setup and Configuration
+
+First, ensure the MCP server is configured in your LLM agent's MCP settings:
+
+```json
+{
+  "mcpServers": {
+    "github-issue-developer": {
+      "command": "/path/to/github-issue-developer-mcp-server",
+      "args": []
+    }
+  }
+}
+```
+
+### 2. Testing Individual Prompts
+
+You can test each prompt by asking your LLM agent to use them:
+
+#### Test Git Best Practices
+```
+Can you use the git-best-practices prompt to help me understand proper Git workflow?
+```
+
+#### Test GitHub Workflow
+```
+Use the github-workflow prompt to show me how to properly manage pull requests and code reviews.
+```
+
+#### Test Development Workflow (Comprehensive)
+```
+Apply the development-workflow prompt to help me implement a new feature following all best practices.
+```
+
+### 3. Real-World Testing Scenarios
+
+#### Scenario 1: New Feature Development
+```
+I need to add a new authentication feature to my project. Use the development-workflow prompt to guide me through the entire process from start to finish.
+```
+
+Expected behavior:
+- The agent will check Git repository status
+- Ask about uncommitted changes
+- Ensure you're not on master/main branch
+- Guide through branch creation
+- Enforce 100% test coverage
+- Monitor CI/CD pipeline
+- Create and manage pull request
+
+#### Scenario 2: Code Review Process
+```
+I have a pull request that needs review. Use the code-review-guidelines prompt to help me review this code properly.
+```
+
+#### Scenario 3: Commit Message Formatting
+```
+I need to commit my changes. Use the commit-message-format prompt to help me write a proper commit message.
+```
+
+### 4. Testing the Comprehensive Workflow
+
+Create a test scenario to validate the full development workflow:
+
+#### Step 1: Initialize Test Project
+```
+Create a new Go project and use the development-workflow prompt to set it up properly with all best practices.
+```
+
+#### Step 2: Add Feature with Full Workflow
+```
+Add a simple "Hello World" HTTP endpoint to this project. Follow the complete development-workflow prompt including:
+- Git repository checks
+- Branch management
+- Test writing (100% coverage)
+- CI/CD monitoring
+- Pull request creation
+```
+
+#### Step 3: Test Documentation Standards
+```
+Add some documentation to the project. Use the development-workflow prompt to ensure it follows the README.md-first approach.
+```
+
+### 5. Advanced Testing Scenarios
+
+#### Test Branch Protection
+```
+I'm currently on the master branch. Use the development-workflow prompt to help me implement a new feature.
+```
+Expected: The agent should immediately warn about working on master and guide you to create a feature branch.
+
+#### Test Uncommitted Changes Handling
+```
+I have some uncommitted changes in my repository. Use the development-workflow prompt to help me add a new feature.
+```
+Expected: The agent should detect uncommitted changes and ask you to commit or stash them first.
+
+#### Test CI/CD Integration
+```
+Implement a new feature and use the development-workflow prompt to monitor the GitHub Actions pipeline until it passes.
+```
+Expected: The agent should push changes and actively monitor CI/CD status using `gh` CLI commands.
+
+### 6. Verification Commands
+
+To verify the MCP server is working correctly with your LLM agent:
+
+#### Check Available Prompts
+```
+What prompts are available from the github-issue-developer MCP server?
+```
+
+#### Test Prompt Access
+```
+Show me the content of the development-workflow prompt.
+```
+
+#### Validate Workflow Enforcement
+```
+Create a simple project and try to commit directly to master branch using the development-workflow prompt.
+```
+Expected: Should be prevented and guided to create a feature branch instead.
+
+### 7. Troubleshooting
+
+If prompts aren't working:
+
+1. **Check MCP Server Status**: Ensure the server is running and accessible
+2. **Verify Configuration**: Check that the server path is correct in your agent's settings
+3. **Test Connection**: Ask your agent to list available MCP servers
+4. **Check Logs**: Look for any error messages in the agent's MCP connection logs
+
+### 8. Expected Behaviors
+
+When using the `development-workflow` prompt, your LLM agent should:
+
+- ✅ Always check Git repository status first
+- ✅ Handle uncommitted changes appropriately
+- ✅ Prevent work on master/main branches
+- ✅ Ask for user preferences on branch management
+- ✅ Enforce 100% test coverage requirements
+- ✅ Monitor CI/CD pipeline status
+- ✅ Create comprehensive pull requests
+- ✅ Handle review cycles properly
+- ✅ Prioritize README.md for documentation
+- ✅ Follow proper commit message formatting
+
 ## Contributing
 
 1. Fork the repository
