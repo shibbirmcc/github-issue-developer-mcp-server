@@ -22,6 +22,7 @@ func TestNewPromptManager(t *testing.T) {
 		"code-review-guidelines",
 		"commit-message-format",
 		"branch-naming-convention",
+		"development-workflow",
 	}
 
 	if len(prompts) != len(expectedPrompts) {
@@ -71,6 +72,7 @@ func TestPromptDescriptions(t *testing.T) {
 		"code-review-guidelines":   "Provides code review guidelines and best practices",
 		"commit-message-format":    "Provides commit message formatting guidelines",
 		"branch-naming-convention": "Provides branch naming convention guidelines",
+		"development-workflow":     "Comprehensive development workflow with Git, GitHub, and CI/CD best practices",
 	}
 
 	for _, prompt := range prompts {

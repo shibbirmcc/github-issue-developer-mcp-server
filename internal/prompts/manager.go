@@ -56,5 +56,10 @@ func (pm *PromptManager) initializePrompts() {
 			Description: "Provides branch naming convention guidelines",
 			Handler:     pm.branchNamingConventionHandler,
 		},
+		{
+			Name:        "development-workflow",
+			Description: "Comprehensive development workflow with Git, GitHub, and CI/CD best practices",
+			Handler:     pm.developmentWorkflowHandler,
+		},
 	}
 }

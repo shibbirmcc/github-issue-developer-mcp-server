@@ -268,3 +268,174 @@ func (pm *PromptManager) branchNamingConventionHandler(ctx context.Context, ss *
 		},
 	}, nil
 }
+
+// developmentWorkflowHandler provides comprehensive development workflow guidelines
+func (pm *PromptManager) developmentWorkflowHandler(ctx context.Context, ss *mcp.ServerSession, params *mcp.GetPromptParams) (*mcp.GetPromptResult, error) {
+	return &mcp.GetPromptResult{
+		Description: "Comprehensive development workflow with Git, GitHub, and CI/CD best practices",
+		Messages: []*mcp.PromptMessage{
+			{
+				Role: "user",
+				Content: &mcp.TextContent{
+					Text: `You are working on a software development project. Follow this comprehensive development workflow:
+
+## PRE-PROCESSING CHECKS (MANDATORY)
+
+Before processing any prompt, ALWAYS perform these checks:
+
+### 1. Git Repository Validation
+- Check if current directory is a Git repository
+- If YES, proceed with the following workflow
+- If NO, ask user if they want to initialize a new repository
+
+### 2. Uncommitted Changes Check
+- Run: git status
+- If there are uncommitted changes:
+  - Show the uncommitted changes to the user
+  - Ask user to either:
+    - Commit the changes first, OR
+    - Ignore/stash the changes
+- Wait for user decision before proceeding
+
+### 3. Branch Protection Rule
+- **NEVER work on master/main branch directly**
+- Check current branch: git branch --show-current
+- If on master/main:
+  - Immediately switch to or create a feature branch
+  - Pull latest changes from origin first
+
+## BRANCH MANAGEMENT WORKFLOW
+
+### 4. Branch Preference
+- Ask user about branch preference:
+  - Continue on current branch (if not master/main), OR
+  - Switch to another existing branch, OR
+  - Create a new feature branch
+- Wait for user input
+
+### 5. Sync with Remote
+- Pull latest changes from origin: git pull origin main
+- If creating new branch: git checkout -b feature/branch-name
+- Ensure branch is up to date before starting work
+
+## DEVELOPMENT CYCLE
+
+### 6. Implementation Process
+- Make changes per user prompt/requirements
+- Write comprehensive tests for 100% coverage (MANDATORY)
+- Run tests locally to ensure they pass
+- Fix any failing tests before proceeding
+
+### 7. Quality Assurance
+- Run linting and code formatting tools
+- Ensure code follows project standards
+- Verify all tests pass with 100% coverage
+- Check for any security vulnerabilities
+
+### 8. Commit Process
+- Stage changes: git add .
+- Write descriptive commit message using conventional commits format
+- Commit: git commit -m "type(scope): descriptive message"
+- Include relevant issue numbers in commit message
+
+## CI/CD INTEGRATION
+
+### 9. Push and Monitor
+- Push commit to remote: git push origin branch-name
+- Use system's gh CLI tool to monitor GitHub Actions
+- Command: gh run list --limit 1
+- Wait for CI/CD pipeline to complete
+
+### 10. Handle CI/CD Failures
+- If GitHub Actions fail:
+  - Analyze the failure logs
+  - Fix the issues locally
+  - Commit the fixes
+  - Re-push and monitor again
+- Repeat until all checks pass successfully
+
+## PULL REQUEST MANAGEMENT
+
+### 11. Create Pull Request
+- Once CI/CD passes, create PR: gh pr create
+- Write comprehensive PR description including:
+  - What changes were made
+  - Why the changes were necessary
+  - How to test the changes
+  - Link to relevant issues
+- Request appropriate reviewers
+
+### 12. PR Review Cycle
+- Monitor PR for comments and feedback
+- Address all PR comments promptly:
+  - Make requested changes
+  - Commit updates with clear messages
+  - Push updates: git push origin branch-name
+  - Update PR automatically
+- Continue until all reviewers approve
+
+### 13. Completion Criteria
+- Task is considered DONE only when:
+  - All CI/CD checks pass
+  - All PR comments are addressed
+  - User explicitly approves the PR
+- If user hasn't approved, wait for user action and remind them to check the PR
+
+## DOCUMENTATION STANDARDS
+
+### 14. Documentation Priority
+- **README.md FIRST**: Always prioritize updating README.md over creating new files
+- **Centralized Documentation**: Keep all essential information in README.md
+- **Absolute Necessity Rule**: Only create separate .md files if content would make README.md excessively long (>1000 lines)
+- **README.md should include**:
+  - Installation instructions
+  - Usage examples
+  - API documentation
+  - Configuration guides
+  - Troubleshooting
+  - Contributing guidelines
+- **Rare exceptions**: Only create separate files for extensive API references or detailed technical specifications
+
+### 15. Code Standards
+- **No Author Information**: Don't add author info in code - let GitHub auto-list contributors
+- **Clean Code**: Follow language-specific best practices
+- **Comments**: Write clear, meaningful comments explaining the "why" not the "what"
+
+## REPOSITORY SETUP (New Projects)
+
+### 16. New Repository Standards
+If creating a new repository:
+- Set **master** as the default branch (not main)
+- Add **MIT License** by default
+- Create comprehensive README.md with:
+  - Project description
+  - Installation instructions
+  - Usage examples
+  - Contributing guidelines
+- Set up proper .gitignore for the project type
+- Configure branch protection rules
+- Set up GitHub Actions for CI/CD
+
+## WORKFLOW SUMMARY
+
+1. ✅ Check Git repository status
+2. ✅ Handle uncommitted changes
+3. ✅ Ensure not on master/main branch
+4. ✅ Ask user for branch preference
+5. ✅ Pull latest and create/switch branch
+6. ✅ Make changes and write tests (100% coverage)
+7. ✅ Run tests locally
+8. ✅ Commit with descriptive message
+9. ✅ Push and monitor GitHub Actions
+10. ✅ Fix and re-push if CI fails
+11. ✅ Create pull request
+12. ✅ Address PR comments and iterate
+13. ✅ Wait for user approval
+14. ✅ Task complete only after user approval
+
+**REMEMBER**: This workflow ensures code quality, proper testing, and collaborative development practices. Follow every step consistently for professional software development.`,
+				},
+			},
+		},
+	}, nil
+}

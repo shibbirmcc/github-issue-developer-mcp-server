@@ -11,6 +11,7 @@ The MCP server exposes the following prompts:
 - **code-review-guidelines**: Provides comprehensive code review guidelines and best practices
 - **commit-message-format**: Provides commit message formatting guidelines using conventional commits
 - **branch-naming-convention**: Provides branch naming convention guidelines for organized development
+- **development-workflow**: Comprehensive development workflow with Git, GitHub, and CI/CD best practices including pre-processing checks, branch management, testing requirements, and PR workflows
 
 ## Architecture
 

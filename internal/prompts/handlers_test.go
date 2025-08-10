@@ -201,6 +201,46 @@ func TestBranchNamingConventionHandler(t *testing.T) {
 	}
 }
 
+func TestDevelopmentWorkflowHandler(t *testing.T) {
+	pm := NewPromptManager()
+	ctx := context.Background()
+	params := &mcp.GetPromptParams{}
+
+	result, err := pm.developmentWorkflowHandler(ctx, nil, params)
+	if err != nil {
+		t.Fatalf("developmentWorkflowHandler returned error: %v", err)
+	}
+
+	if result == nil {
+		t.Fatal("developmentWorkflowHandler returned nil result")
+	}
+
+	textContent, ok := result.Messages[0].Content.(*mcp.TextContent)
+	if !ok {
+		t.Fatal("Expected TextContent")
+	}
+
+	expectedKeywords := []string{
+		"development workflow",
+		"PRE-PROCESSING CHECKS",
+		"Git Repository Validation",
+		"Uncommitted Changes Check",
+		"Branch Protection Rule",
+		"NEVER work on master/main branch",
+		"100% coverage",
+		"README.md FIRST",
+		"gh CLI tool",
+		"Pull Request",
+		"CI/CD",
+	}
+
+	for _, keyword := range expectedKeywords {
+		if !strings.Contains(textContent.Text, keyword) {
+			t.Errorf("Expected text to contain %q", keyword)
+		}
+	}
+}
+
 func TestAllHandlersReturnValidStructure(t *testing.T) {
 	pm := NewPromptManager()
 	ctx := context.Background()
@@ -215,6 +255,7 @@ func TestAllHandlersReturnValidStructure(t *testing.T) {
 		{"codeReviewGuidelinesHandler", pm.codeReviewGuidelinesHandler},
 		{"commitMessageFormatHandler", pm.commitMessageFormatHandler},
 		{"branchNamingConventionHandler", pm.branchNamingConventionHandler},
+		{"developmentWorkflowHandler", pm.developmentWorkflowHandler},
 	}
 
 	for _, h := range handlers {
