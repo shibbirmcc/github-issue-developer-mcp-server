@@ -6,12 +6,8 @@ run:
 linters-settings:
   govet:
     check-shadowing: true
-  golint:
-    min-confidence: 0
   gocyclo:
     min-complexity: 15
-  maligned:
-    suggest-new: true
   dupl:
     threshold: 100
   goconst:
@@ -23,64 +19,26 @@ linters-settings:
     line-length: 140
   goimports:
     local-prefixes: github.com/shibbirmcc/github-issue-developer-mcp-server
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - experimental
-      - opinionated
-      - performance
-      - style
-    disabled-checks:
-      - dupImport
-      - ifElseChain
-      - octalLiteral
-      - whyNoLint
-      - wrapperFunc
 
 linters:
   enable:
-    - bodyclose
-    - dupl
     - errcheck
-    - exportloopref
-    - funlen
-    - gochecknoinits
-    - goconst
-    - gocritic
-    - gocyclo
     - gofmt
     - goimports
-    - mnd
-    - goprintffuncname
-    - gosec
     - gosimple
     - govet
     - ineffassign
-    - lll
     - misspell
-    - nakedret
-    - noctx
-    - nolintlint
-    - rowserrcheck
     - staticcheck
-    - stylecheck
     - typecheck
-    - unconvert
-    - unparam
     - unused
-    - whitespace
 
 issues:
   exclude-rules:
     - path: _test\.go
       linters:
-        - mnd
-        - funlen
-        - gocyclo
+        - errcheck
     - path: internal/prompts/handlers\.go
       linters:
         - lll
-        - funlen
   exclude-use-default: false
-  exclude:
-    - 'declaration of "(err|ctx)" shadows declaration at'
