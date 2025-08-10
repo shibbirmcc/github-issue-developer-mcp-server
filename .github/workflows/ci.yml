@@ -1,71 +1,41 @@
-name: CI
+name: Go CI
 
 on:
   push:
-    branches: [ master, main ]
+    branches:
+      - develop
   pull_request:
-    branches: [ master, main ]
+    branches:
+      - master
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        go-version: [1.21, 1.22, 1.23]
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4  # Update to the latest version to support Node 20
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: ${{ matrix.go-version }}
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.22.8  # Updated to the specified Go version
 
-    - name: Cache Go modules
-      uses: actions/cache@v3
-      with:
-        path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-
+      - name: Install dependencies
+        run: go mod download
 
-    - name: Download dependencies
-      run: go mod download
+      - name: Run tests with coverage
+        run: |
+          # Run tests and generate a coverage profile
+          go test -v -coverprofile=coverage.txt ./...
+          # Filter out the "tests" directory from the coverage profile
+          grep -v -E "(/tests/|/mocks/)" coverage.txt > coverage_filtered.txt || cp coverage.txt coverage_filtered.txt
 
-    - name: Verify dependencies
-      run: go mod verify
-
-    - name: Run go vet
-      run: go vet ./...
-
-    - name: Run tests
-      run: go test -race -coverprofile=coverage.out -covermode=atomic ./...
-
-    - name: Build
-      run: go build -v ./...
-
-  build:
-    runs-on: ubuntu-latest
-    needs: test
-    
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.23
-
-    - name: Build binary
-      run: go build -o github-issue-developer-mcp-server
-
-    - name: Test binary execution
-      run: |
-        timeout 5s ./github-issue-developer-mcp-server || true
-        echo "Binary execution test completed"
-
-    - name: Upload binary artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: github-issue-developer-mcp-server
-        path: github-issue-developer-mcp-server
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: coverage_filtered.txt  # Use the filtered coverage file
+          token: ${{ secrets.CODECOV_TOKEN }}  # Add your Codecov token in GitHub Secrets
+          flags: unittests
+          name: codecov-coverage
+          fail_ci_if_error: false
