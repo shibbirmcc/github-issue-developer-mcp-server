@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  github-issue-developer-mcp:
+    build: .
+    container_name: github-issue-developer-mcp-server
+    ports:
+      - "8080:8080"
+    environment:
+      - MCP_HTTP_ADDR=:8080
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Alternative service for stdio transport (for testing)
+  github-issue-developer-mcp-stdio:
+    build: .
+    container_name: github-issue-developer-mcp-server-stdio
+    profiles:
+      - stdio
+    # No ports exposed for stdio transport
+    # No MCP_HTTP_ADDR environment variable
+    restart: "no"
+    stdin_open: true
+    tty: true

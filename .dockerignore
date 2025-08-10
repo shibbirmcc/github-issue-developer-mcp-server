@@ -1,0 +1,28 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+test-prompts.md
+
+# Build artifacts
+github-issue-developer-mcp-server
+
+# Scripts
+start-sse-server.sh
+
+# IDE files
+.vscode
+.idea
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+*_test.go
+
+# Temporary files
+*.tmp
+*.log
